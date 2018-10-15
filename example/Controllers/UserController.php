@@ -11,9 +11,10 @@
  * @license   ALL RIGHTS RESERVED
  *
  * * */
-define("BREAK_LINE", '<br /> <br />');
+define("BREAK_LINE", '');
 
-class UserController extends App\Controller {
+// This class has been created for testing purpose of Router Class
+class UserController extends Controller {
 	
 	public function editAction() {
 		/*
@@ -30,8 +31,8 @@ class UserController extends App\Controller {
 		 * */
 
 		// get First param
-		var_dump($this->router->getParam(0)); // this is user_id (45)
-		
+		var_dump($this->router->getParam(0, 'is_int')); // this is user_id (45)
+		var_dump($this->router->getParam(0, 'is_email')); // false since we declared validate class and 45 it didnt pass is_email validation
 		echo BREAK_LINE;
 		
 		var_dump($this->router->getParam(1)); // this is username (SzpaaQ)

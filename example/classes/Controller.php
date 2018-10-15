@@ -12,14 +12,12 @@
  *
  * * */
 
-namespace App;
 
 class Controller {
 	
+	// This class has been created for testing purpose of Router Class
 	protected $router;
-	
-	protected $request;
-	
+		
 	public function __construct( array $params = array() ) {
 		$this->router = isset($params['router']) ? $params['router'] : new Router;
 	}

@@ -28,6 +28,8 @@ class Router
 	public static $GET = false;
 	
 	public static $SECURE_GET = true;
+	
+	public static $VALIDATE_CLASS = false;
 
 	public function __construct() {
 		
@@ -98,15 +100,23 @@ class Router
 	public function getParams() : array {
 		return (array) $this->params;
 	}
-	public function getParam($num = null) {
+	public function getParam($num = null, $validate = null) {
+		$result = false;
 		if(null === $num) {
-			return isset($this->params[0]) ? array_shift($this->params) : false;
+			$result = isset($this->params[0]) ? array_shift($this->params) : false;
 		}
 		if(is_numeric($num)) {
-			return isset($this->params[$num]) ? (string) $this->params[$num] : false;
+			$result = isset($this->params[$num]) ? (string) $this->params[$num] : false;
 		} else {
-			return isset($this->params[$num]) ? $this->params[$num] : false;
+			$result = isset($this->params[$num]) ? $this->params[$num] : false;
 		}
+		
+		if(null !== $validate && false !== Router::$VALIDATE_CLASS) {
+			if(method_exists(Router::$VALIDATE_CLASS, $validate)) {
+				return true == Router::$VALIDATE_CLASS->$validate($result) ? $result : false;
+			}
+		}
+		return $result;
 	}
 	public static function getRequestArray() {
 		if(false === Router::$GET) {
@@ -135,5 +145,10 @@ class Router
 			$_GET = array();
 		}
 		Router::$SECURE_GET = $type === 0 ? false : true;
+	}
+	public static function setValidator(string $class) {
+		if(class_exists($class)) {
+			Router::$VALIDATE_CLASS = new $class;
+		}
 	}
 }

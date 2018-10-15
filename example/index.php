@@ -13,8 +13,21 @@
  * * */
 
 include 'loader.php';
+// These two was created for the testing purpose of App\Router class (same as UserController and autoloader)
+require 'classes/Validate.php';
+require 'classes/Controller.php';
 
+// OPTIONAL set route string
+// default value is _url
 App\Router::setRoutingVariable('route');
+
+
+// OPTIONAL set Validate class
+App\Router::setValidator('Validate');
+
+$_GET = array(
+	'route' => 'user/edit/45/SzpaaQ'
+);
 
 // create Router object
 $router = new App\Router;
