@@ -146,6 +146,10 @@ class Router
 		}
 		Router::$SECURE_GET = $type === 0 ? false : true;
 	}
+	/**
+	 * @param string $class name of class that will be used as validator for params
+	 * @return void
+	 * */
 	public static function setValidator(string $class) {
 		if(class_exists($class)) {
 			Router::$VALIDATE_CLASS = new $class;
